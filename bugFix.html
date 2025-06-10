@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LeetCode UI Bug Simulation</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: sans-serif;
+      background-color: #f3f4f6;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 40px;
+      margin-bottom: 30px;
+    }
+
+    .submit-btn {
+      background-color: #10b981;
+      border: none;
+      color: white;
+      font-size: 1.2rem;
+      padding: 10px 20px;
+      border-radius: 50px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .popups {
+      display: flex;
+      gap: 40px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .popup {
+      padding: 20px 25px;
+      border-radius: 16px;
+      background-color: white;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 280px;
+      text-align: center;
+      position: relative;
+      display: none;
+    }
+
+    .popup h2 {
+      margin: 0;
+      color: #10b981;
+    }
+
+    .popup p {
+      margin-top: 6px;
+      font-size: 14px;
+      color: #374151;
+    }
+
+    .label {
+      text-align: center;
+      font-weight: bold;
+      margin-top: 8px;
+      color: #374151;
+    }
+
+    /* LeetCode Bug (Blue border same size & rounded, but shifted right) */
+    .popup.buggy.show::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 2px solid #007fff;
+      border-radius: 16px;
+      pointer-events: none;
+      transform: translateX(10px); 
+      animation: blink 0.8s ease-in-out 2;
+    }
+
+    /* Fixed version */
+    .popup.fixed.show {
+      display: block;
+      border: 2px solid #007fff;
+      border-radius: 16px;
+      animation: blink 0.8s ease-in-out 2;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 0; }
+      25%, 75% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .popup.show {
+      display: block;
+    }
+
+    .container {
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="buttons">
+    <button class="submit-btn" onclick="showBuggy()">▶ Submit (LeetCode Bug)</button>
+    <button class="submit-btn" onclick="showFixed()">▶ Submit (Fixed UI)</button>
+  </div>
+
+  <div class="popups">
+    <div class="container">
+      <div class="popup buggy" id="buggyPopup">
+        <h2>Accepted ✅</h2>
+        <p>Your solution passed all test cases.</p>
+      </div>
+      <div class="label">⚠ LeetCode Bug (Shifted Outline)</div>
+    </div>
+
+    <div class="container">
+      <div class="popup fixed" id="fixedPopup">
+        <h2>Accepted ✅</h2>
+        <p>Your solution passed all test cases.</p>
+      </div>
+      <div class="label">✅ Fixed Version</div>
+    </div>
+  </div>
+
+  <script>
+    function showBuggy() {
+      const el = document.getElementById("buggyPopup");
+      el.classList.remove("show");
+      void el.offsetWidth;
+      el.classList.add("show");
+    }
+
+    function showFixed() {
+      const el = document.getElementById("fixedPopup");
+      el.classList.remove("show");
+      void el.offsetWidth;
+      el.classList.add("show");
+    }
+  </script>
+
+</body>
+</html>
